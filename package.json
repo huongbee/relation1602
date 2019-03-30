@@ -1,0 +1,11 @@
+{
+  "name": "relation1602",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/huongnguyen08/relation1602.git",
+  "author": "<huongnguyenak96@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "mongoose": "^5.4.20"
+  }
+}
