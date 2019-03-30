@@ -4,38 +4,63 @@ const User = require('./models/User')
 const Post = require('./models/Post')
 const Comment = require('./models/Comment')
 
-//4.3
-// Comment.insertMany([
-//     {
-//         author: '5c9f1e745077ee0e99ed0760', 
-//         post: '5c9f209a3f50e80fba5a63d7',
-//         content: 'user 1 comment tren post 1'
-//     },
-//     {
-//         author: '5c9f1e745077ee0e99ed0761',
-//         post: '5c9f209a3f50e80fba5a63d7',
-//         content: 'user 2 comment tren post 1'
-//     },
-//     {
-//         author: '5c9f1e745077ee0e99ed0760', 
-//         post: '5c9f209a3f50e80fba5a63d8',
-//         content: 'user 1 comment tren post 2'
-//     },
-// ])
 /**
+ *  2 user
  * 
+ *  3 post
+ * user 1 tạo được 2 post
+ * user 2 tạo được 1 post
  * 
- * {
-    "_id" : ObjectId("5c9f22e0c9f5a41124b19bd3"),
-    "likes" : [],
-    "author" : ObjectId("5c9f1e745077ee0e99ed0760"),
-    "post" : ObjectId("5c9f209a3f50e80fba5a63d7"),
-    "content" : "user 1 comment tren post 1",
-    "replies" : [],
-    "__v" : 0
-}
+ *  2 comment 
+ * user 1 cmt trên post 1
+ * user 2 cmt trên post 1
  */
+//5.4
+// User.findOne({email:'manager@gmail.com'})
+// .then(user=>{
+//     //update post : likes
+//     return Post.findByIdAndUpdate('5c9f2980735e5c14d7b657c4',{
+//         $pull:{
+//             likes: user._id
+//         }
+//     },{new:true})
+// })
+// .then(r=>console.log(r))
+// .catch(err=>console.log(err))
+
+
+ // 4.4
+// User.findOne({email:'manager@gmail.com'})
+// .then(user=>{
+//     //update post : likes
+//     return Post.findByIdAndUpdate('5c9f2980735e5c14d7b657c4',{
+//         $addToSet:{
+//             likes: user
+//         }
+//     },{new:true})
+// })
+// .then(r=>console.log(r))
+// .catch(err=>console.log(err))
+
+
 //4.3
+// post 1: ObjectId("5c9f2980735e5c14d7b657c4")
+// Comment.create({
+//     author: '5c9f1e745077ee0e99ed0762',
+//     post: '5c9f2980735e5c14d7b657c4',
+//     content: 'User 2 comment tren post 1'
+// })
+// .then((comment)=>{
+//     return Post.findByIdAndUpdate('5c9f2980735e5c14d7b657c4',{
+//         $addToSet:{
+//             comments: comment._id
+//         }
+//     },{new:true})
+// })
+// .then(r=>console.log(r))
+// .catch(err=>console.log(err))
+
+
 //post: ObjectId("5c9f29f1a0a39d151b24291b")
 // find user
 // update posts
@@ -49,21 +74,20 @@ const Comment = require('./models/Comment')
 //     Post.findByIdAndRemove('5c9f29f1a0a39d151b24291b')
 // })
 
-Post.findByIdAndRemove('5c9f29f1a0a39d151b24291b')
-.then(r=>console.log(r))
-.catch(r=>console.log(r))
+// Post.findByIdAndRemove('5c9f29f1a0a39d151b24291b')
+// .then(r=>console.log(r))
+// .catch(r=>console.log(r))
 
 
 //4.2
-//user: ObjectId("5c9f1e745077ee0e99ed0761")
+//user 1: ObjectId("5c9f1e745077ee0e99ed0761")
+//user 2: ObjectId("5c9f1e745077ee0e99ed0762")
 // Post.create({
-//     author: '5c9f1e745077ee0e99ed0761',
-//     content: 'Nội dung cho status 02 của user 1',
+//     author: '5c9f1e745077ee0e99ed0762',
+//     content: 'Nội dung cho status 01 của user 2',
 // }).then(post=>{
-//     // update user's posts
-//     // 
 //     User.findOneAndUpdate({
-//             _id:'5c9f1e745077ee0e99ed0761'
+//             _id:'5c9f1e745077ee0e99ed0762'
 //         },{
 //             $addToSet: {
 //                 posts: post._id
