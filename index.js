@@ -15,6 +15,32 @@ const Comment = require('./models/Comment')
  * user 1 cmt trên post 1
  * user 2 cmt trên post 1
  */
+//5.5
+
+//user 1: ObjectId("5c9f1e745077ee0e99ed0761")
+//user 2: ObjectId("5c9f1e745077ee0e99ed0762")
+// user 1 => user 2
+// User.findOneAndUpdate({_id:'5c9f1e745077ee0e99ed0761'},{
+//     $addToSet:{
+//         sendRequests: '5c9f1e745077ee0e99ed0762'
+//     }
+// })
+// .then((userSendRequest)=>{
+//     return User.findOneAndUpdate({_id:'5c9f1e745077ee0e99ed0762'},{
+//         $addToSet:{
+//             receiveRequests: userSendRequest
+//             // '5c9f1e745077ee0e99ed0761'
+//         }
+//     },{new:true})
+// })
+// .then(r=>console.log(r))
+// .catch(err=>console.log(err))
+//check
+User.findOne({_id:'5c9f1e745077ee0e99ed0761'})
+.then(r=>console.log(r))
+.catch(err=>console.log(err))
+
+
 //5.4
 // User.findOne({email:'manager@gmail.com'})
 // .then(user=>{
@@ -80,8 +106,6 @@ const Comment = require('./models/Comment')
 
 
 //4.2
-//user 1: ObjectId("5c9f1e745077ee0e99ed0761")
-//user 2: ObjectId("5c9f1e745077ee0e99ed0762")
 // Post.create({
 //     author: '5c9f1e745077ee0e99ed0762',
 //     content: 'Nội dung cho status 01 của user 2',
