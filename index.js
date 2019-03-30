@@ -35,28 +35,45 @@ const Comment = require('./models/Comment')
     "__v" : 0
 }
  */
+//4.3
+//post: ObjectId("5c9f29f1a0a39d151b24291b")
+// find user
+// update posts
+// delete post 
+// User.findByIdAndUpdate('5c9f1e745077ee0e99ed0761',{
+//     $pull:{
+//         posts: '5c9f29f1a0a39d151b24291b'
+//     }
+// })
+// .then(()=>{
+//     Post.findByIdAndRemove('5c9f29f1a0a39d151b24291b')
+// })
+
+Post.findByIdAndRemove('5c9f29f1a0a39d151b24291b')
+.then(r=>console.log(r))
+.catch(r=>console.log(r))
 
 
 //4.2
-//ObjectId("5c9f1e745077ee0e99ed0761")
-Post.create({
-    author: '5c9f1e745077ee0e99ed0761',
-    content: 'Nội dung cho status 02 của user 1',
-}).then(post=>{
-    // update user's posts
-    // 
-    User.findOneAndUpdate({
-            _id:'5c9f1e745077ee0e99ed0761'
-        },{
-            $addToSet: {
-                posts: post._id
-            }
-        },{
-            new:true
-        })
-        .then(result=>console.log(result))
-        .catch(err=>console.log(err))
-})
+//user: ObjectId("5c9f1e745077ee0e99ed0761")
+// Post.create({
+//     author: '5c9f1e745077ee0e99ed0761',
+//     content: 'Nội dung cho status 02 của user 1',
+// }).then(post=>{
+//     // update user's posts
+//     // 
+//     User.findOneAndUpdate({
+//             _id:'5c9f1e745077ee0e99ed0761'
+//         },{
+//             $addToSet: {
+//                 posts: post._id
+//             }
+//         },{
+//             new:true
+//         })
+//         .then(result=>console.log(result))
+//         .catch(err=>console.log(err))
+// })
 /**
  * {
     "_id" : ObjectId("5c9f1e745077ee0e99ed0760"),
