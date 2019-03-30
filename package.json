@@ -6,6 +6,7 @@
   "author": "<huongnguyenak96@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^3.0.5",
     "mongoose": "^5.4.20"
   }
 }

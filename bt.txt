@@ -13,6 +13,7 @@
  *      4.2 Thêm ít nhất 3 bài post cho các user trên 
  *      4.3 Thêm ít nhất 3 comment cho các bài post trên 
  * 
+ *
  *      4.4 Dùng tài khoản admin@gmail.com like bài post có id ...
  *      4.5 Dùng tài khoản admin@gmail.com dislike bài post có id ...
  *      4.6 Dùng tài khoản user admin@gmail.com gửi yêu cầu kết bạn đến 
