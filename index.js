@@ -4,6 +4,29 @@ const User = require('./models/User')
 const Post = require('./models/Post')
 const Comment = require('./models/Comment')
 
+//4.13
+Post.findById('5c9f2980735e5c14d7b657c4',{content:1,_id:0})
+.populate({
+    path: 'comments', // prop of post
+    populate: {
+        path: 'author', // prop of comment
+        select: {name:1,_id:0},
+        match:{ email: 'manager@gmail.com'}
+    },
+    match: {
+        author: {
+            $ne : null  //not exist
+        }
+    }
+})
+.then(post=>{
+    const comment = post.comments[0]
+    // return console.log(comment)
+    if(comment.author!=null) 
+        console.log(comment.likes.length)
+    else console.log(new Error('not found!'))
+})
+
 //4.12
 //https://mongoosejs.com/docs/populate.html
 /**
@@ -12,6 +35,37 @@ const Comment = require('./models/Comment')
  *      comment
  *          user
  */
+//post: ObjectId("5c9f2980735e5c14d7b657c4")
+// Post.findById('5c9f2980735e5c14d7b657c4',{content:1,_id:0})
+// .populate({
+//     path: 'comments', // prop of post
+//     select: {content:1,_id:0},
+//     populate: {
+//         path: 'author', // prop of comment
+//         select: {name:1,_id:0},
+//     }
+// })
+// .populate('author',{name:1,_id:0})
+// .then(post=>{
+//     console.log('Post: ' + post.content)
+//     console.log('Author: ' + post.author.name)
+//     console.log('Comments:')
+//     post.comments.forEach(cmt=>{
+//         console.log('- '+ cmt.author.name + ': '+cmt.content)
+//     })
+// })
+// .catch(err=>console.log(err))
+
+/**
+ * Post: content
+ * Author: name
+ * Comments: 
+ *      - name: content
+ *      - name: content
+ */
+
+
+
 
 
 //4.11
