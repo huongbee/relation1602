@@ -3,28 +3,143 @@ const { hash } = require('./lib/bcrypt')
 const User = require('./models/User')
 const Post = require('./models/Post')
 const Comment = require('./models/Comment')
+
+//4.12
+//https://mongoosejs.com/docs/populate.html
+/**
+ * post
+ *      user
+ *      comment
+ *          user
+ */
+
+
+//4.11
+// User.findOne({email:'guest@gmail.com'})
+// .populate('receiveRequests')
+// .then(user=>console.log(user))
+// .catch(err=>console.log(err))
+
+/**
+ * { posts: [ 5c9f307d5b072a18a840ebaa ],
+  friends: [],
+  receiveRequests:
+   [ { posts: [Array],
+       friends: [],
+       receiveRequests: [],
+       sendRequests: [Array],
+       _id: 5c9f1e745077ee0e99ed0761,
+       email: 'manager@gmail.com',
+       password:
+        '$2b$08$5yJIFnDYTVSPlY5s6M6Vhe2XxS4.0ad1TWhTYn3.S6Jr7/H93NPzS',
+       name: 'Manager',
+       __v: 0 } ],
+  sendRequests: [],
+  _id: 5c9f1e745077ee0e99ed0762,
+  email: 'guest@gmail.com',
+  password:
+   '$2b$08$5yJIFnDYTVSPlY5s6M6Vhe2XxS4.0ad1TWhTYn3.S6Jr7/H93NPzS',
+  name: 'Guest',
+  __v: 0 }
+ */
+
+
+//4.10
+// User.findOne({email:'manager@gmail.com'})
+// .then(user=>console.log(user.friends.length))
+
+//  4.9
+//c1
+// User.findOne({email:'manager@gmail.com'})
+// .then(user=>Post.find({author:user._id}))
+// .then(posts=>{
+//     console.log(posts)
+// })
+// .catch(err=>console.log(err))
+// c2
+
+// WHERE id IN [1,2,4]
+// User.findOne({email:'manager@gmail.com'})
+// .then(user=>Post.find({
+//     _id: {
+//         $in: user.posts // user.posts: array
+//     }
+// }))
+// .then(posts=>console.log(posts))
+// .catch(err=>console.log(err))
+
+//c3
+// User.findOne({email:'manager@gmail.com'},{email:1,_id:0})
+// .select(['name','password'])
+// .populate('posts',{content:1,_id:0})
+// .then(user=>console.log(user))
+// .catch(err=>console.log(err))
+
+/*
+{ posts:
+   [ { likes: [],
+       comments: [Array],
+       _id: 5c9f2980735e5c14d7b657c4,
+       author: 5c9f1e745077ee0e99ed0761,
+       content: 'Nội dung cho status 01 của user 1',
+       __v: 0 },
+     { likes: [],
+       comments: [],
+       _id: 5c9f303a039bcb18805ad27f,
+       author: 5c9f1e745077ee0e99ed0761,
+       content: 'Nội dung cho status 02 của user 1',
+       __v: 0 } ],
+  friends: [],
+  receiveRequests: [],
+  sendRequests: [],
+  _id: 5c9f1e745077ee0e99ed0761,
+  email: 'manager@gmail.com',
+  password:
+   '$2b$08$5yJIFnDYTVSPlY5s6M6Vhe2XxS4.0ad1TWhTYn3.S6Jr7/H93NPzS',
+  name: 'Manager',
+  __v: 0 }
+
+*/
+/*
+ * {
+ *      email: ....
+ *      name: ....
+ *      posts: [
+ *          {
+ *              content:....
+ *          },
+ *          {
+ *              content:....
+ *          }
+ *      ]
+ * }
+ * 
+ */
+
+
+
 //4.8
-User.findOne({email:'manager@gmail.com'})
-.then(user1=>{ //user bị huỷ friend 
-    // user2 unfriend user1
-    return User.findOneAndUpdate({email:'guest@gmail.com'},{
-        $pull:{
-            friends: user1._id
-        }
-    },{new:true})
-})
-.then(user2=>{
-    console.log(user2)
-    // remove user2 ra khỏi list friend user1
-    return User.findOneAndUpdate({email:'manager@gmail.com'},{
-        $pull:{
-            friends: user2._id
-        }
-    },{new:true})
-})
-.then(user1=>{
-    console.log(user1)
-})
+// User.findOne({email:'manager@gmail.com'})
+// .then(user1=>{ //user bị huỷ friend 
+//     // user2 unfriend user1
+//     return User.findOneAndUpdate({email:'guest@gmail.com'},{
+//         $pull:{
+//             friends: user1._id
+//         }
+//     },{new:true})
+// })
+// .then(user2=>{
+//     console.log(user2)
+//     // remove user2 ra khỏi list friend user1
+//     return User.findOneAndUpdate({email:'manager@gmail.com'},{
+//         $pull:{
+//             friends: user2._id
+//         }
+//     },{new:true})
+// })
+// .then(user1=>{
+//     console.log(user1)
+// })
 
 
 
