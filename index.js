@@ -3,39 +3,64 @@ const { hash } = require('./lib/bcrypt')
 const User = require('./models/User')
 const Post = require('./models/Post')
 const Comment = require('./models/Comment')
+//4.8
+User.findOne({email:'manager@gmail.com'})
+.then(user1=>{ //user bị huỷ friend 
+    // user2 unfriend user1
+    return User.findOneAndUpdate({email:'guest@gmail.com'},{
+        $pull:{
+            friends: user1._id
+        }
+    },{new:true})
+})
+.then(user2=>{
+    console.log(user2)
+    // remove user2 ra khỏi list friend user1
+    return User.findOneAndUpdate({email:'manager@gmail.com'},{
+        $pull:{
+            friends: user2._id
+        }
+    },{new:true})
+})
+.then(user1=>{
+    console.log(user1)
+})
+
+
+
 
 //4.7
-// B send to A
-User.findOne({email:'manager@gmail.com'})
-.then(userSend=>{
-    // A accept B : set friend B cho A
-    return User.findOneAndUpdate({email:'guest@gmail.com'},{
-        $addToSet:{
-            friends: userSend._id
-        },
-        $pull:{
-            receiveRequests:userSend._id
-        }
-    },{new:true})
-    .then(userReceive=>{
-        console.log(userReceive)
-        return userReceive
-    })
-    .catch(err=>console.log(err))
-})
-.then(userAccept=>{
-    //set friend A cho B
-    return User.findOneAndUpdate({email:'manager@gmail.com'},{
-        $addToSet:{
-            friends: userAccept
-        },
-        $pull:{
-            sendRequests: userAccept._id
-        }
-    },{new:true})
-})
-.then(userSend=>console.log(userSend))
-.catch(err=>console.log(err))
+// // B send to A
+// User.findOne({email:'manager@gmail.com'})
+// .then(userSend=>{
+//     // A accept B : set friend B cho A
+//     return User.findOneAndUpdate({email:'guest@gmail.com'},{
+//         $addToSet:{
+//             friends: userSend._id
+//         },
+//         $pull:{
+//             receiveRequests:userSend._id
+//         }
+//     },{new:true})
+//     .then(userReceive=>{
+//         console.log(userReceive)
+//         return userReceive
+//     })
+//     .catch(err=>console.log(err))
+// })
+// .then(userAccept=>{
+//     //set friend A cho B
+//     return User.findOneAndUpdate({email:'manager@gmail.com'},{
+//         $addToSet:{
+//             friends: userAccept
+//         },
+//         $pull:{
+//             sendRequests: userAccept._id
+//         }
+//     },{new:true})
+// })
+// .then(userSend=>console.log(userSend))
+// .catch(err=>console.log(err))
 
 
 /**
