@@ -4,6 +4,40 @@ const User = require('./models/User')
 const Post = require('./models/Post')
 const Comment = require('./models/Comment')
 
+//4.7
+// B send to A
+User.findOne({email:'manager@gmail.com'})
+.then(userSend=>{
+    // A accept B : set friend B cho A
+    return User.findOneAndUpdate({email:'guest@gmail.com'},{
+        $addToSet:{
+            friends: userSend._id
+        },
+        $pull:{
+            receiveRequests:userSend._id
+        }
+    },{new:true})
+    .then(userReceive=>{
+        console.log(userReceive)
+        return userReceive
+    })
+    .catch(err=>console.log(err))
+})
+.then(userAccept=>{
+    //set friend A cho B
+    return User.findOneAndUpdate({email:'manager@gmail.com'},{
+        $addToSet:{
+            friends: userAccept
+        },
+        $pull:{
+            sendRequests: userAccept._id
+        }
+    },{new:true})
+})
+.then(userSend=>console.log(userSend))
+.catch(err=>console.log(err))
+
+
 /**
  *  2 user
  * 
@@ -15,10 +49,10 @@ const Comment = require('./models/Comment')
  * user 1 cmt trên post 1
  * user 2 cmt trên post 1
  */
-//5.5
-
 //user 1: ObjectId("5c9f1e745077ee0e99ed0761")
 //user 2: ObjectId("5c9f1e745077ee0e99ed0762")
+
+//4.6
 // user 1 => user 2
 // User.findOneAndUpdate({_id:'5c9f1e745077ee0e99ed0761'},{
 //     $addToSet:{
@@ -36,12 +70,12 @@ const Comment = require('./models/Comment')
 // .then(r=>console.log(r))
 // .catch(err=>console.log(err))
 //check
-User.findOne({_id:'5c9f1e745077ee0e99ed0761'})
-.then(r=>console.log(r))
-.catch(err=>console.log(err))
+// User.findOne({_id:'5c9f1e745077ee0e99ed0761'})
+// .then(r=>console.log(r))
+// .catch(err=>console.log(err))
 
 
-//5.4
+//4.5
 // User.findOne({email:'manager@gmail.com'})
 // .then(user=>{
 //     //update post : likes
